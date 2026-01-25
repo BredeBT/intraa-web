@@ -6,18 +6,26 @@ import { useRouter } from "next/navigation";
 export default function LoginPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      // Sett auth-cookie
-      document.cookie = "intraa-auth=true; path=/";
+    // 👇 DEBUG – fjern senere
+    console.log("Password typed:", password);
 
-      // Send til dashboard
+    if (!process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
+      alert("ENV mangler: NEXT_PUBLIC_ADMIN_PASSWORD");
+      return;
+    }
+
+    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
+      document.cookie =
+        "intraa_auth=1; path=/; SameSite=Lax";
+
       router.push("/dashboard");
     } else {
-      alert("Feil passord");
+      setError("Feil passord");
     }
   }
 
@@ -27,17 +35,19 @@ export default function LoginPage() {
         onSubmit={handleSubmit}
         className="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-xl p-8"
       >
-        <h1 className="text-xl font-semibold mb-6">
-          Logg inn
-        </h1>
+        <h1 className="text-xl font-semibold mb-6">Logg inn</h1>
 
         <input
           type="password"
           placeholder="Passord"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-4 rounded-md bg-slate-950 border border-slate-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className="w-full mb-4 rounded-md bg-slate-950 border border-slate-700 px-3 py-2"
         />
+
+        {error && (
+          <p className="text-red-400 text-sm mb-3">{error}</p>
+        )}
 
         <button
           type="submit"
