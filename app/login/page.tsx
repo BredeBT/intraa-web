@@ -7,22 +7,22 @@ export default function LoginPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+ async function handleSubmit(e: React.FormEvent) {
+  e.preventDefault();
 
-    console.log("Submit triggered");
-    console.log("Typed password:", password);
-    console.log("ENV password:", process.env.NEXT_PUBLIC_ADMIN_PASSWORD);
+  const res = await fetch("/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password }),
+  });
 
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      document.cookie = "intraa_auth=1; path=/; SameSite=Lax";
-
-      console.log("Login OK → redirect");
-      router.push("/dashboard");
-    } else {
-      alert("Feil passord");
-    }
+  if (res.ok) {
+    router.push("/dashboard");
+  } else {
+    alert("Feil passord");
   }
+}
+
 
   return (
     <main className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-100">
