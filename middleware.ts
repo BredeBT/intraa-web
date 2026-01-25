@@ -2,10 +2,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const isLoggedIn = req.cookies.get("intraa_auth")?.value === "1";
-  const isDashboard = req.nextUrl.pathname.startsWith("/dashboard");
+  const authCookie = req.cookies.get("intraa_auth")?.value;
 
-  if (isDashboard && !isLoggedIn) {
+  const isLoggedIn = authCookie === "1";
+  const isDashboardRoute = req.nextUrl.pathname.startsWith("/dashboard");
+
+  if (isDashboardRoute && !isLoggedIn) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 

@@ -15,7 +15,8 @@ export default function LoginPage() {
     console.log("ENV password:", process.env.NEXT_PUBLIC_ADMIN_PASSWORD);
 
     if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      document.cookie = "intraa_auth=1; path=/";
+      document.cookie = "intraa_auth=1; path=/; SameSite=Lax";
+
       console.log("Login OK → redirect");
       router.push("/dashboard");
     } else {
