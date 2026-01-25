@@ -1,14 +1,13 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
-export async function POST(request: NextRequest) {
-  const url = request.nextUrl.clone();
-  url.pathname = "/";
+export async function GET() {
+  const response = NextResponse.redirect(
+    new URL("/login", process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000")
+  );
 
-  const response = NextResponse.redirect(url);
   response.cookies.set("intraa_auth", "", {
     path: "/",
-    maxAge: 0,
+    expires: new Date(0),
   });
 
   return response;

@@ -7,17 +7,19 @@ export default function LoginPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
 
- function handleSubmit(e: React.FormEvent) {
-  e.preventDefault();
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
 
-  if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-    document.cookie = "intraa_auth=1; path=/";
-    router.push("/dashboard");
-  } else {
-    alert("Feil passord");
+    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
+      // Sett auth-cookie
+      document.cookie = "intraa-auth=true; path=/";
+
+      // Send til dashboard
+      router.push("/dashboard");
+    } else {
+      alert("Feil passord");
+    }
   }
-}
-
 
   return (
     <main className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-100">
