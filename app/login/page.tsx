@@ -6,26 +6,20 @@ import { useRouter } from "next/navigation";
 export default function LoginPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    // 👇 DEBUG – fjern senere
-    console.log("Password typed:", password);
-
-    if (!process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      alert("ENV mangler: NEXT_PUBLIC_ADMIN_PASSWORD");
-      return;
-    }
+    console.log("Submit triggered");
+    console.log("Typed password:", password);
+    console.log("ENV password:", process.env.NEXT_PUBLIC_ADMIN_PASSWORD);
 
     if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      document.cookie =
-        "intraa_auth=1; path=/; SameSite=Lax";
-
+      document.cookie = "intraa_auth=1; path=/";
+      console.log("Login OK → redirect");
       router.push("/dashboard");
     } else {
-      setError("Feil passord");
+      alert("Feil passord");
     }
   }
 
@@ -45,13 +39,9 @@ export default function LoginPage() {
           className="w-full mb-4 rounded-md bg-slate-950 border border-slate-700 px-3 py-2"
         />
 
-        {error && (
-          <p className="text-red-400 text-sm mb-3">{error}</p>
-        )}
-
         <button
           type="submit"
-          className="w-full bg-slate-100 text-slate-900 py-2 rounded-md font-medium hover:bg-white transition"
+          className="w-full bg-slate-100 text-slate-900 py-2 rounded-md font-medium"
         >
           Logg inn
         </button>
