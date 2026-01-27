@@ -11,7 +11,7 @@ export default function DashboardLayout({
   const pathname = usePathname();
 
   const navItems = [
-    { label: "Oversikt", href: "/dashboard" },
+   { label: "Oversikt", href: "/dashboard/communities" },
     { label: "Communities", href: "/dashboard/communities" },
     { label: "Users", href: "/dashboard/users" },
     { label: "Settings", href: "/dashboard/settings" },
