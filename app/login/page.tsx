@@ -7,7 +7,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
 
- async function handleSubmit(e: React.FormEvent) {
+async function handleSubmit(e: React.FormEvent) {
   e.preventDefault();
 
   const res = await fetch("/api/login", {
@@ -22,6 +22,7 @@ export default function LoginPage() {
     alert("Feil passord");
   }
 }
+
 
 
   return (

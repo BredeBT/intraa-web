@@ -9,11 +9,13 @@ export async function POST(req: Request) {
 
   const res = NextResponse.json({ ok: true });
 
-  res.cookies.set("intraa_auth", "1", {
-    path: "/",
+  res.cookies.set({
+    name: "intraa_auth",
+    value: "1",
     httpOnly: true,
+    path: "/",                 // 🔴 KRITISK
     sameSite: "lax",
-    secure: true,
+    secure: true,              // 🔴 KRITISK i prod (https)
   });
 
   return res;
