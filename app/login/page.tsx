@@ -7,19 +7,19 @@ export default function LoginPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+function handleSubmit(e: React.FormEvent) {
+  e.preventDefault();
 
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      // Viktig: Domain=.intraa.net gjør at cookie funker på både intraa.net og www.intraa.net
-      document.cookie =
-        "intraa_auth=1; Path=/; Domain=.intraa.net; SameSite=Lax; Secure";
+  if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
+    document.cookie =
+      "intraa_auth=1; path=/; max-age=604800; samesite=lax";
 
-      router.push("/dashboard");
-    } else {
-      alert("Feil passord");
-    }
+    router.push("/dashboard");
+  } else {
+    alert("Feil passord");
   }
+}
+
 
   return (
     <main className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-100">
@@ -34,12 +34,12 @@ export default function LoginPage() {
           placeholder="Passord"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-4 rounded-md bg-slate-950 border border-slate-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className="w-full mb-4 rounded-md bg-slate-950 border border-slate-700 px-3 py-2"
         />
 
         <button
           type="submit"
-          className="w-full bg-slate-100 text-slate-900 py-2 rounded-md font-medium hover:bg-white transition"
+          className="w-full bg-slate-100 text-slate-900 py-2 rounded-md font-medium"
         >
           Logg inn
         </button>
