@@ -1,21 +1,23 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { password } = await req.json();
+  const body = await req.json();
+  const password = body.password;
 
-  if (password !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ ok: false }, { status: 401 });
+  if (password !== process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
+    return NextResponse.json(
+      { error: "Feil passord" },
+      { status: 401 }
+    );
   }
 
   const res = NextResponse.json({ ok: true });
 
-  res.cookies.set({
-    name: "intraa_auth",
-    value: "1",
+  res.cookies.set("intraa_auth", "1", {
     httpOnly: true,
-    path: "/",                 // 🔴 KRITISK
     sameSite: "lax",
-    secure: true,              // 🔴 KRITISK i prod (https)
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7, // 7 dager
   });
 
   return res;

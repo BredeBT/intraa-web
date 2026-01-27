@@ -3,9 +3,10 @@ import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
   const isLoggedIn = req.cookies.get("intraa_auth")?.value === "1";
-  const isDashboard = req.nextUrl.pathname.startsWith("/dashboard");
+  const { pathname } = req.nextUrl;
 
-  if (isDashboard && !isLoggedIn) {
+  // Beskytt ALT under /dashboard
+  if (pathname.startsWith("/dashboard") && !isLoggedIn) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
