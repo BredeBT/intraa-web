@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
-  const res = NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_BASE_URL));
+export async function GET(req: Request) {
+  const res = NextResponse.redirect(new URL("/login", req.url));
 
-  res.cookies.set("intraa_auth", "", {
-    maxAge: 0,
+  res.cookies.set({
+    name: "intraa_auth",
+    value: "",
     path: "/",
+    maxAge: 0,
   });
 
   return res;
