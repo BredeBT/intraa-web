@@ -34,3 +34,23 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Vercel auto-deploy setup (recommended)
+
+Use this checklist to make sure every git push deploys automatically:
+
+1. **Connect the GitHub repo**
+   - Go to https://vercel.com/new and import `BredeBT/intraa-web`.
+   - Pick the branch you want to deploy (typically `main`).
+2. **Confirm project settings**
+   - Framework preset: **Next.js**
+   - Root directory: **/** (repo root)
+   - Build command: `npm run build`
+   - Output: `.next`
+3. **Set environment variables**
+   - Add the same values you use locally (for example `ADMIN_PASSWORD`).
+4. **Deploy once**
+   - Click **Deploy**. After this, every push to the selected branch triggers a new Vercel deployment automatically.
+
+### Optional: manual redeploy
+If you ever need to force a redeploy, open the Vercel project and click **Deployments → Redeploy** on the latest build.
