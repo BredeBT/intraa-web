@@ -22,9 +22,9 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, slug } = body;
+    const { name, slug, ownerId } = body;
 
-    if (!name || !slug) {
+    if (!name || !slug || !ownerId) {
       return NextResponse.json(
         { error: "Missing fields" },
         { status: 400 }
@@ -35,6 +35,7 @@ export async function POST(req: Request) {
       data: {
         name,
         slug,
+        ownerId,
       },
     });
 
