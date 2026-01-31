@@ -5,32 +5,54 @@ import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  async function handleLogin() {
+    if (!password) return;
 
-    const res = await fetch("/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
-    });
+    setLoading(true);
 
-    if (res.ok) {
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Unauthorized");
+      }
+
+      // Viktig: bruk replace så back ikke går til /login
       router.replace("/dashboard/overview");
-    } else {
+    } catch (err) {
       alert("Feil passord");
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div style={{ maxWidth: 320 }}>
       <input
         type="password"
+        placeholder="Admin-passord"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleLogin();
+          }
+        }}
       />
-      <button type="submit">Logg inn</button>
-    </form>
+
+      <button onClick={handleLogin} disabled={loading}>
+        {loading ? "Logger inn…" : "Logg inn"}
+      </button>
+    </div>
   );
 }
